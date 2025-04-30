@@ -1,6 +1,7 @@
 package httpRequest;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -12,33 +13,39 @@ import java.net.URL;
 
 public class httpRequester {
 	
-	public String getFeedRss(String urlFeed){
+	public String getFeedRss(String urlFeed){	//esta funcion es exclusiva para rss, alguna manera de parsear el url para manejo de url invalido?
+		String feedRssXml = null;
 		try {
-			URL url = new URL(urlFeed);  
+			URL url = new URL(urlFeed);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 		
-			//Dado el input de la request, lo mandamos a un buffer
-			BufferedReader input = new BufferedReader(
-  				new InputStreamReader(connection.getInputStream()));
-			String inputLine;
-			StringBuffer content = new StringBuffer();
-			while ((inputLine = input.readLine()) != null) {
-    			content.append(inputLine);
+			int status = connection.getResponseCode();
+			if(status == HttpURLConnection.HTTP_OK){	//si hubo respuesta 200, continua
+				InputStream inputStream = connection.getInputStream();	
+				BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+
+				String inputLine;
+				StringBuffer content = new StringBuffer();
+				while ((inputLine = input.readLine()) != null) {
+					content.append(inputLine).append("\n");	//se lee por linea el inputstream, "\n" para que no sea toda una linea
+				}
+
+				feedRssXml = content.toString();
+				input.close();
+				inputStream.close();	//se cierran ambas conections
+			}else{
+				System.err.println("Error Response, status code: " + status);
 			}
-			input.close();
 
-			//Pasamos del buffer a un string para poder retornarlo
-			String feedRssXml = content.toString();  	
-
-        	// int status = connection.getResponseCode();
-        	connection.disconnect();  					// Cerrar la conexión
-			return feedRssXml;
+        	connection.disconnect();	//se desconecta
+			
 		}
 		catch (Exception e) {
-            e.printStackTrace();
-            return null;  // Manejo básico de errores
+            System.err.println("Error establishing connection: " + e.getMessage());
         }
+
+		return feedRssXml;
 	}
 
 	public String getFeedReedit(String urlFeed) {
