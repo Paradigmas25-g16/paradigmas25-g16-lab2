@@ -1,6 +1,8 @@
-package parser;
+package _test_;
 
 import java.util.List;
+
+import parser.RssParser;
 import parser.RssParser.RssItem;
 
 public class TestRssParser {

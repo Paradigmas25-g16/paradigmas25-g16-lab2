@@ -1,4 +1,6 @@
-package httpRequest;
+package _test_;
+
+import httpRequest.httpRequester;
 
 public class httpRequesterTEST {
     public static void main(String[] args) {
