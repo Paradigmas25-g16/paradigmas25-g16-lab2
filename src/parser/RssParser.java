@@ -1,11 +1,7 @@
 package parser;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.*;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,61 +13,44 @@ import feed.Feed;
  * */
 
 public class RssParser extends GeneralParser {
-    public Feed parsFeed(String xmlString){
-        Feed feed = null;
+    public Feed parseFeed(String xmlString){
+        //xmlToDoc() de GeneralParser, se encarga de convertir xml a una interfaz de documento
+        //Eliminando ambiguedades y facilitando su lectura
+        Document doc = xmlToDoc(xmlString);
 
-        try{
-            ByteArrayInputStream input = new ByteArrayInputStream(xmlString.getBytes(StandardCharsets.UTF_8)); //convierte String en inputStream
-            
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); 
-            DocumentBuilder docBuilder = factory.newDocumentBuilder();
+        //Obtengo el siteName del tag <title> dentro de <channel>
+        Element channel = (Element) doc.getElementsByTagName("channel").item(0);
+        NodeList titleNodes = channel.getElementsByTagName("title");
+        String siteName = (titleNodes != null && titleNodes.getLength() > 0) ? titleNodes.item(0).getTextContent() : "Sin título";
+        Feed feed = new Feed(siteName);  //creo el feed con el siteName
 
-            Document doc = docBuilder.parse(input);
-            doc.getDocumentElement().normalize(); //quita los posibles "\n" para mejor lectura
+        // Obtiene todos los nodos <item> del documento
+        NodeList itemList = doc.getElementsByTagName("item");
 
-            //Obtengo el siteName del tag <title> dentro de <channel>
-            Element channel = (Element) doc.getElementsByTagName("channel").item(0);
-            NodeList titleNodes = channel.getElementsByTagName("title");
-            String siteName = (titleNodes != null && titleNodes.getLength() > 0) ? titleNodes.item(0).getTextContent() : "Sin título";
-
-            feed = new Feed(siteName);  //creo el feed con el siteName
-
-            // Obtiene todos los nodos <item> del documento
-            NodeList itemList = doc.getElementsByTagName("item");
-
-            for(int i = 0; i<itemList.getLength(); i++){
-                Node item = itemList.item(i);
-
-                if(item.getNodeType() == Node.ELEMENT_NODE){    // Solo procesa si es un nodo de tipo ELEMENTO
-                    Element element = (Element) item;
-
-                    // Extrae el contenido del tag <title>, <description>, <link>, <pubDate>
-                    NodeList tList = element.getElementsByTagName("title");
-                    NodeList dList = element.getElementsByTagName("description");
-                    NodeList lList = element.getElementsByTagName("link");
-                    NodeList pList = element.getElementsByTagName("pubDate");
-
-                    String title = tList.item(0).getTextContent();
-                    String description = dList.item(0).getTextContent();
-                    String  link = lList.item(0).getTextContent();
-                    String pubDateStr = pList.item(0).getTextContent(); //Guardado como string para formatear a tipo Date
-
-                    Date pubDate = new Date();
-                    try {
-                        SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", java.util.Locale.ENGLISH);
-                        pubDate = formatter.parse(pubDateStr); // Intenta parsear la fecha del String
-                    } catch (Exception e) {
-                        System.err.println("Error parsing date: " + pubDateStr); // Maneja errores de formato
-                    }
-
-                    // Crea un objeto Article con los datos extraídos y lo agrega al Feed
-                    Article article = new Article(title, description, pubDate, link);
-                    feed.addArticle(article);
+        for(int i = 0; i<itemList.getLength(); i++){
+            Node item = itemList.item(i);
+            if(item.getNodeType() == Node.ELEMENT_NODE){ // Solo procesa si es un nodo de tipo ELEMENTO(title, description, link, etc)
+                Element element = (Element) item;
+                // Extrae el contenido del tag <title>, <description>, <link>, <pubDate>
+                NodeList tList = element.getElementsByTagName("title");
+                NodeList dList = element.getElementsByTagName("description");
+                NodeList lList = element.getElementsByTagName("link");
+                NodeList pList = element.getElementsByTagName("pubDate");
+                String title = tList.item(0).getTextContent();
+                String description = dList.item(0).getTextContent();
+                String  link = lList.item(0).getTextContent();
+                String pubDateStr = pList.item(0).getTextContent(); //Guardado como string para formatear a tipo Date
+                Date pubDate = new Date();
+                try {
+                    SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", java.util.Locale.ENGLISH);
+                    pubDate = formatter.parse(pubDateStr); // Intenta parsear la fecha del String
+                } catch (Exception e) {
+                    System.err.println("Error parsing date: " + pubDateStr); // Maneja errores de formato
                 }
+                // Crea un objeto Article con los datos extraídos y lo agrega al Feed
+                Article article = new Article(title, description, pubDate, link);
+                feed.addArticle(article);
             }
-
-        }catch (Exception e) {
-            System.err.println("Error parsing feed: " + e.getMessage());
         }
         return feed;
     }
