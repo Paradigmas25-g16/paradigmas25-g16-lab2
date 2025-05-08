@@ -9,7 +9,8 @@ public class httpRequesterTEST {
         
         // 2. URL de prueba (feed RSS de NYTimes - Business)
         String testUrl = "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml";
-        
+        String testUrlReddit = "https://www.reddit.com/r/Sales/hot/.json?count=100";
+
         System.out.println("Testeando getFeedRss() con URL: " + testUrl);
         String feedContent = requester.getFeedRss(testUrl);
         

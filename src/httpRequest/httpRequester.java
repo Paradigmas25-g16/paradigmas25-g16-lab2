@@ -50,8 +50,28 @@ public class httpRequester {
 
 	public String getFeedReedit(String urlFeed) {
 		String feedReeditJson = null;
+		try{
+			
+			URL url = new URL(urlFeed);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+				
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String inputLine;
+			StringBuilder content = new StringBuilder();
+			while ((inputLine = in.readLine()) != null) {
+				content.append(inputLine);
+			}
+
+			in.close();
+			connection.disconnect();
+			
+			feedReeditJson = content.toString();
+		}catch(Exception e){
+			System.err.println("Error :" + e.getMessage());;
+		}
+
 		return feedReeditJson;
 	}
-
 }
 
