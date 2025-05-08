@@ -9,7 +9,7 @@ public class TestRssParser {
         //obtener xmlfeed por url con httpRequest
         //parsear xmlfeed mediante parser 
         //mostrar resultados
-
+        
         String testUrl = "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml";
 
         httpRequester requester = new httpRequester();
