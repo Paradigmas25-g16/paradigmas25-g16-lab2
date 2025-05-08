@@ -1,6 +1,9 @@
 package parser;
 
 import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.FileReader;
 
 import org.json.JSONArray;
 
@@ -8,11 +11,10 @@ import subscription.*;
 
 public class SubscriptionParser extends GeneralParser{
     
-    public Subscription createSubscriptionFromJsonFile(String filePath) {
-        try{
-            //JsonFileToJsonArray() de GeneralParser, se encarga de convertir un arcvivo json, es un JSONArray
-            //Facilitando su interaccion entre sus indices
-            JSONArray array = JsonFileToJsonArray(filePath);
+    public Subscription parse(String filePath) {
+        try(FileReader reader = new FileReader(filePath)){
+            JSONTokener tokener = new JSONTokener(reader);
+            JSONArray array = new JSONArray(tokener);
 
             JSONObject rssJsonObject = array.getJSONObject(0);
             //rss singleSubscription
