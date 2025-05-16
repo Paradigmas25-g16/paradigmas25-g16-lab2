@@ -4,7 +4,7 @@ JAVA := java
 
 BIN_DIR := bin
 LIB_DIR := ../_dependencias_
-MAIN_CLASS := httpRequesterTEST
+MAIN_CLASS := todoTestNoNE.java	#SOLO CAMBIAR ESTA LINEA POR EL NOMBRE DEL ARCHIVO
 
 # Configuración del classpath
 JARS := $(wildcard $(LIB_DIR)/*.jar)
@@ -35,14 +35,3 @@ clean:
 	@echo "Limpiando archivos compilados..."
 	@rm -rf $(BIN_DIR)
 	@echo "Limpieza completada."# Variables
-JAVAC=javac
-JAVA=java
-
-
-BIN_DIR=bin
-
-LIB_DIR=../_dependencias_
-MAIN_CLASS=httpRequesterTEST.java
-
-JARS=$(wildcard $(LIB_DIR)/*.jar)
-CLASSPATH=$(LIB_DIR)/*:$(BIN_DIR)
