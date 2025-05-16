@@ -13,8 +13,8 @@ import java.net.URL;
 
 public class httpRequester {
 	
-	public String getFeedRss(String urlFeed){	//esta funcion es exclusiva para rss, alguna manera de parsear el url para manejo de url invalido?
-		String feedRssXml = null;
+	public String getFeed(String urlFeed){	//esta funcion es exclusiva para rss, alguna manera de parsear el url para manejo de url invalido?
+		String feedData = null;
 		try {
 			URL url = new URL(urlFeed);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -31,7 +31,7 @@ public class httpRequester {
 					content.append(inputLine).append("\n");	//se lee por linea el inputstream, "\n" para que no sea toda una linea
 				}
 
-				feedRssXml = content.toString();
+				feedData = content.toString();
 				input.close();
 				inputStream.close();	//se cierran ambas conections
 			}else{
@@ -42,36 +42,11 @@ public class httpRequester {
 			
 		}
 		catch (Exception e) {
-            System.err.println("Error establishing connection: " + e.getMessage());
+            System.err.println("Error establishing connection, " + e.getMessage() + "\n");
         }
 
-		return feedRssXml;
+		return feedData;
 	}
 
-	public String getFeedReedit(String urlFeed) {
-		String feedReeditJson = null;
-		try{
-			
-			URL url = new URL(urlFeed);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-				
-			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String inputLine;
-			StringBuilder content = new StringBuilder();
-			while ((inputLine = in.readLine()) != null) {
-				content.append(inputLine);
-			}
-
-			in.close();
-			connection.disconnect();
-			
-			feedReeditJson = content.toString();
-		}catch(Exception e){
-			System.err.println("Error :" + e.getMessage());;
-		}
-
-		return feedReeditJson;
-	}
 }
 
