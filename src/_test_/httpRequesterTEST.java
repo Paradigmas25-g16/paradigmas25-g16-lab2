@@ -11,7 +11,7 @@ public class httpRequesterTEST {
         String testUrl = "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml";
 
         System.out.println("Testeando getFeedRss() con URL: " + testUrl);
-        String feedContent = requester.getFeed(testUrl);
+        String feedContent = requester.getFeedContent(testUrl);
         
         // 4. Verificar resultados
         if (feedContent == null) {

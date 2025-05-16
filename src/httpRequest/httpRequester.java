@@ -13,7 +13,7 @@ import java.net.URL;
 
 public class httpRequester {
 	
-	public String getFeed(String urlFeed){	//esta funcion es exclusiva para rss, alguna manera de parsear el url para manejo de url invalido?
+	public String getFeedContent(String urlFeed){
 		String feedData = null;
 		try {
 			URL url = new URL(urlFeed);

@@ -21,7 +21,7 @@ public class RedditParser extends GeneralParser {
         Feed result = new Feed("Reddit Feed");
 
         try {
-            String jsonResponse = requester.getFeed(urlfeed);
+            String jsonResponse = requester.getFeedContent(urlfeed);
 
             if (jsonResponse != null) {
                 // Parsear el JSON usando org.json
