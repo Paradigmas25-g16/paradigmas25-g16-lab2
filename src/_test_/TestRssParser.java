@@ -13,7 +13,7 @@ public class TestRssParser {
         String testUrl = "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml";
 
         httpRequester requester = new httpRequester();
-        String feedRssXml = requester.getFeedRss(testUrl);
+        String feedRssXml = requester.getFeed(testUrl);
 
         RssParser parser = new RssParser();
         Feed feed = parser.parse(feedRssXml);
