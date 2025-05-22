@@ -80,7 +80,7 @@ public final class todoTestNoNE {
         LLamar al prettyPrint del Feed para ver los articulos del feed en forma legible y amigable para el usuario
         */
         
-        String jsonpath = "/home/visitante/Escritorio/delete/paradigmas25-g16-lab2/config/subscriptions.json";
+        String jsonpath = "../../config/subscriptions.json";
 
         System.out.println("\nStarting test\n");
         
