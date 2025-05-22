@@ -4,7 +4,7 @@ JAVA := java
 
 BIN_DIR := bin
 LIB_DIR := lib
-MAIN_CLASS := src/FeedReaderMain.java	#SOLO CAMBIAR ESTA LINEA POR EL NOMBRE DEL ARCHIVO
+MAIN_CLASS := FeedReaderMain	#SOLO CAMBIAR ESTA LINEA POR EL NOMBRE DEL ARCHIVO
 
 # Configuración del classpath
 CLASSPATH := $(LIB_DIR)/*:$(BIN_DIR)

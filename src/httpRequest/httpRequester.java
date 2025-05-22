@@ -13,6 +13,7 @@ import java.net.URL;
 
 public class httpRequester {
 	
+	@SuppressWarnings("deprecation")
 	public String getFeedContent(String urlFeed){
 		String feedData = null;
 		try {

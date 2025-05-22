@@ -47,9 +47,6 @@ public class NamedEntity {
 	public String toString() {
 		return "ObjectNamedEntity [name=" + name + ", frequency=" + frequency + "]";
 	}
-	public void prettyPrint(){
-		System.out.println(this.getName() + " " + this.getFrequency());
-	}
 	
 	
 }

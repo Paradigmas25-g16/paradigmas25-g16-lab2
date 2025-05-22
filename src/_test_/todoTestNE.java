@@ -133,7 +133,7 @@ public class todoTestNE {
         for (feed.Article article : feed.getArticleList()) {
             System.out.println("Entidades nombradas para el artículo: " + article.getTitle());
             for (namedEntity.NamedEntity ne : article.getNamedEntityList()) {
-                ne.prettyPrint();
+                System.out.println(ne.toString());
             }
             System.out.println();
         }
