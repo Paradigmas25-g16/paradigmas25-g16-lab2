@@ -58,6 +58,10 @@ public class Article {
 		this.link = link;
 	}
 	
+	public List<NamedEntity> getNamedEntityList() {
+		return namedEntityList;
+	}
+
 	@Override
 	public String toString() {
 		return "Article [title=" + title + ", text=" + text + ", publicationDate=" + publicationDate + ", link=" + link
