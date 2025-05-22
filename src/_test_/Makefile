@@ -3,18 +3,16 @@ JAVAC := javac
 JAVA := java
 
 BIN_DIR := bin
-LIB_DIR := ../_dependencias_
-MAIN_CLASS := todoTestNoNE.java	#SOLO CAMBIAR ESTA LINEA POR EL NOMBRE DEL ARCHIVO
+LIB_DIR := ../../lib
+MAIN_CLASS := todoTestNE.java	#SOLO CAMBIAR ESTA LINEA POR EL NOMBRE DEL ARCHIVO
 
 # Configuración del classpath
-JARS := $(wildcard $(LIB_DIR)/*.jar)
 CLASSPATH := $(LIB_DIR)/*:$(BIN_DIR)
 
 # Encontrar todos los archivos .java recursivamente desde el directorio padre
 # (asumiendo que el Makefile está en src/_test_/)
 SOURCE_DIR := ../..
 SOURCES := $(shell find $(SOURCE_DIR) -type f -name "*.java")
-CLASSES := $(SOURCES:.java=.class)
 
 # Reglas
 .PHONY: all compile run clean
